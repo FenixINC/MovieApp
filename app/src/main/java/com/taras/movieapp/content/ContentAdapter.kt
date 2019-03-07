@@ -54,6 +54,7 @@ class ContentAdapter() : RecyclerView.Adapter<ContentAdapter.ViewHolder>() {
     }
 
     companion object {
+        @JvmStatic
         @BindingAdapter("contentImageThumb")
         fun bindMovieImage(@NonNull imageView: ImageView, @NonNull movie: Movie) {
             if (movie.poster == null) {
