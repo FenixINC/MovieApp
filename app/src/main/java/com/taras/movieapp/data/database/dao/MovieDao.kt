@@ -18,6 +18,12 @@ interface MovieDao {
     @Query("DELETE FROM tblMovie")
     fun deleteAll()
 
+    @Query("DELETE FROM tblMovie WHERE movieGenre = :movieGenre")
+    fun deleteByGenre(movieGenre: String)
+
     @Query("SELECT * FROM tblMovie")
     fun getMovieList(): List<Movie>
+
+    @Query("SELECT * FROM tblMovie WHERE movieGenre = :movieGenre")
+    fun getMoviesByType(movieGenre: String): List<Movie>
 }

@@ -9,12 +9,9 @@ import retrofit2.http.Query
 interface MovieService {
 
     @GET("/api/vod/search")
-    fun getResponse(@Query("genre") genre: String): Deferred<Response<BaseResponse>>
-
-    @GET("/api/vod/search")
     fun getMovieList(
         @Query("genre") genre: String,
         @Query("start_index") startIndex: Int,
-        @Query("max_results") maxResult: Int
+        @Query("max_results") maxResult: String
     ): Deferred<Response<BaseResponse>>
 }

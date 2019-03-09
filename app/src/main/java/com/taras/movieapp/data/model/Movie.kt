@@ -18,6 +18,9 @@ data class Movie(
     @SerializedName("id")
     var id: Long,
 
+    @ColumnInfo(name = "movieGenre")
+    var movieGenre: String,
+
     @ColumnInfo(name = "vendorkaId")
     @SerializedName("vendorka_id")
     var vendorkaId: Long,
@@ -99,7 +102,7 @@ data class Movie(
     var poster: @RawValue Poster
 ) : Parcelable {
     constructor() : this(
-        0L, 0L, "", "", "", 0L, 0L,
+        0L, "", 0L, "", "", "", 0L, 0L,
         "", false, 0, "", "", 0L,
         0, "", 0L, 0L, 0L, Poster()
     )

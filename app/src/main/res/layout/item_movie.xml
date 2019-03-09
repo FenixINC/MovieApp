@@ -13,42 +13,49 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="4dp"
         android:background="@color/white"
         app:cardCornerRadius="5dp"
         app:cardElevation="1dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="4dp">
+            android:orientation="horizontal"
+            android:padding="8dp">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="250dp"
+                android:id="@+id/poster"
+                android:layout_width="100dp"
+                android:layout_height="150dp"
                 app:contentImageThumb="@{model}"
                 tools:ignore="ContentDescription"
                 tools:src="@tools:sample/backgrounds/scenic" />
 
             <TextView
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_toEndOf="@id/poster"
                 android:text="@{model.title}"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 tools:text="Title" />
 
             <TextView
+                android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/title"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"
+                android:layout_toEndOf="@id/poster"
                 android:gravity="start"
                 android:text="@{model.description}"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 tools:text="Description" />
-        </LinearLayout>
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </layout>

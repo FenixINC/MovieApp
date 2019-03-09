@@ -13,6 +13,9 @@ class BaseResponse(
     @ColumnInfo(name = "id")
     var id: Long,
 
+    @ColumnInfo(name = "movieGenre")
+    var movieGenre: String,
+
     @ColumnInfo(name = "code")
     @SerializedName("code")
     var code: Int,
@@ -32,4 +35,6 @@ class BaseResponse(
     @Ignore
     @SerializedName("response")
     var responseList: List<Movie>
-)
+) {
+    constructor() : this(0L, "", 0, "", 0, 0, ArrayList<Movie>())
+}
