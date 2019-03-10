@@ -21,8 +21,10 @@ class ContentAdapter() : RecyclerView.Adapter<ContentAdapter.ViewHolder>() {
     private var mList: ArrayList<Movie> = ArrayList()
 //    private val mListener: OnClickListener = listener
 
-    fun setList(list: List<Movie>) {
-        mList.clear()
+    fun setList(list: List<Movie>, clear: Boolean) {
+        if (clear) {
+            mList.clear()
+        }
         mList.addAll(list)
         notifyDataSetChanged()
     }

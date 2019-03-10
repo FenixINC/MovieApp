@@ -93,7 +93,7 @@ class ContentFragment : Fragment(), CoroutineScope {
                     } catch (e: Exception) {
                         Timber.e("$e")
                     }
-                    mAdapter.setList(movieList)
+                    mAdapter.setList(movieList, true)
                 }
             }
         } catch (e: Exception) {
@@ -110,7 +110,7 @@ class ContentFragment : Fragment(), CoroutineScope {
                 if (movieList.isEmpty()) {
                     doMovieRequest(movieGenre)
                 } else {
-                    mAdapter.setList(movieList)
+                    mAdapter.setList(movieList, true)
                     mBinding.swipeRefresh.isRefreshing = false
                 }
             }
