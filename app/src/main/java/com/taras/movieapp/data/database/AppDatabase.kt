@@ -31,7 +31,7 @@ abstract class AppDatabase : RoomDatabase() {
         private fun newInstance(): AppDatabase {
             if (sInstance == null) {
                 sInstance = Room.databaseBuilder(
-                    MovieApplication.getMovieAppContext(),
+                    MovieApplication.getAppInstance,
                     AppDatabase::class.java,
                     "Movie-Database"
                 )
