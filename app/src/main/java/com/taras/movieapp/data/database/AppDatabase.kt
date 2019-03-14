@@ -30,11 +30,7 @@ abstract class AppDatabase : RoomDatabase() {
         @Synchronized
         private fun newInstance(): AppDatabase {
             if (sInstance == null) {
-                sInstance = Room.databaseBuilder(
-                    MovieApplication.getAppInstance,
-                    AppDatabase::class.java,
-                    "Movie-Database"
-                )
+                sInstance = Room.databaseBuilder(MovieApplication.getAppInstance, AppDatabase::class.java, "Movie-Database")
                     .fallbackToDestructiveMigration()
                     .build()
             }

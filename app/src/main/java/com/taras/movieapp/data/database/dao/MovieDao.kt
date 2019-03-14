@@ -1,5 +1,6 @@
 package com.taras.movieapp.data.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -22,8 +23,8 @@ interface MovieDao {
     fun deleteByGenre(movieGenre: String)
 
     @Query("SELECT * FROM tblMovie")
-    fun getMovieList(): List<Movie>
+    fun getMovieList(): LiveData<List<Movie>>
 
     @Query("SELECT * FROM tblMovie WHERE movieGenre = :movieGenre")
-    fun getMoviesByType(movieGenre: String): List<Movie>
+    fun getMoviesByGenre(movieGenre: String): LiveData<List<Movie>>
 }

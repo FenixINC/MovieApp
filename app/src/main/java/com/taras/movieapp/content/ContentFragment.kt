@@ -6,21 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.taras.movieapp.data.ServiceGenerator
-import com.taras.movieapp.data.database.AppDatabase
-import com.taras.movieapp.data.model.BaseResponse
 import com.taras.movieapp.data.model.Movie
-import com.taras.movieapp.data.service.MovieService
+import com.taras.movieapp.data.viewmodel.MovieViewModel
 import com.taras.movieapp.databinding.FragmentContentBinding
-import kotlinx.coroutines.*
-import timber.log.Timber
-import kotlin.coroutines.CoroutineContext
 
-class ContentFragment : Fragment(), CoroutineScope {
+class ContentFragment : Fragment() {
 
     private lateinit var mBinding: FragmentContentBinding
     private lateinit var mAdapter: ContentAdapter
+    private lateinit var mViewModel: MovieViewModel
 
     private var mMovieGenre = ""
 
@@ -33,14 +30,12 @@ class ContentFragment : Fragment(), CoroutineScope {
         }
     }
 
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + SupervisorJob()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.run {
             mMovieGenre = getString(MOVIE_GENRE)!!
         }
+        mViewModel = ViewModelProviders.of(this@ContentFragment).get(MovieViewModel::class.java)
     }
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -58,70 +53,10 @@ class ContentFragment : Fragment(), CoroutineScope {
         rv.adapter = mAdapter
 
         mBinding.swipeRefresh.setOnRefreshListener {
-            mBinding.swipeRefresh.isRefreshing = true
-            doMovieRequest(mMovieGenre)
-        }
-
-        doMovieLoad(mMovieGenre)
-    }
-
-    private fun doMovieRequest(movieGenre: String) = launch {
-        var baseResponse: BaseResponse? = null
-        var movieList: List<Movie> = ArrayList()
-        try {
-            withContext(Dispatchers.Default) {
-                val request =
-                    ServiceGenerator.createService(MovieService::class.java)
-                        .getMovieList(movieGenre, 0, "")
-                val response = request.await()
-
-                if (response.isSuccessful) {
-                    baseResponse = response.body()
-                    baseResponse?.movieGenre = movieGenre
-                    movieList = response.body()?.responseList!!
-
-                    for (movie in movieList) {
-                        movie.movieGenre = movieGenre
-                    }
-
-                    try {
-                        AppDatabase.getInstance().baseResponseDao().deleteByGenre(movieGenre)
-                        AppDatabase.getInstance().baseResponseDao().insert(baseResponse!!)
-
-                        AppDatabase.getInstance().movieDao().deleteByGenre(movieGenre)
-                        AppDatabase.getInstance().movieDao().insert(movieList)
-                    } catch (e: Exception) {
-                        Timber.e("$e")
-                    }
-                    mAdapter.setList(movieList, true)
-                }
-            }
-        } catch (e: Exception) {
-            Timber.e("$e")
-        }
-        mBinding.swipeRefresh.isRefreshing = false
-    }
-
-    private fun doMovieLoad(movieGenre: String) = launch {
-        var movieList: List<Movie> = ArrayList()
-        try {
-            withContext(Dispatchers.Default) {
-                movieList = AppDatabase.getInstance().movieDao().getMoviesByType(movieGenre)
-                if (movieList.isEmpty()) {
-                    doMovieRequest(movieGenre)
-                } else {
-                    mAdapter.setList(movieList, true)
-                    mBinding.swipeRefresh.isRefreshing = false
-                }
-            }
-        } catch (e: Exception) {
-            Timber.e("$e")
             mBinding.swipeRefresh.isRefreshing = false
+            mViewModel.doRefreshMoviesByGenre(mMovieGenre).observe(this@ContentFragment, Observer<List<Movie>> { list -> mAdapter.setList(list, true) })
         }
-    }
 
-    override fun onStop() {
-        super.onStop()
-        coroutineContext.cancelChildren()
+        mViewModel.doLoadMoviesByGenre(mMovieGenre).observe(this@ContentFragment, Observer<List<Movie>> { list -> mAdapter.setList(list, true) })
     }
 }
