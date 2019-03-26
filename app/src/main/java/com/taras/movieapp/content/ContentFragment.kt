@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.taras.movieapp.data.model.Movie
+import com.taras.movieapp.data.paging.MoviePagedAdapter
 import com.taras.movieapp.data.viewmodel.MovieViewModel
 import com.taras.movieapp.databinding.FragmentContentBinding
 
@@ -18,6 +18,8 @@ class ContentFragment : Fragment() {
     private lateinit var mBinding: FragmentContentBinding
     private lateinit var mAdapter: ContentAdapter
     private lateinit var mViewModel: MovieViewModel
+
+    private lateinit var mPagedAdapter: MoviePagedAdapter
 
     private var mMovieGenre = ""
 
@@ -38,9 +40,10 @@ class ContentFragment : Fragment() {
         mViewModel = ViewModelProviders.of(this@ContentFragment).get(MovieViewModel::class.java)
     }
 
-    override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = FragmentContentBinding.inflate(inflater, container, false)
         mAdapter = ContentAdapter()
+        mPagedAdapter = MoviePagedAdapter()
         return mBinding.root
     }
 
@@ -50,13 +53,21 @@ class ContentFragment : Fragment() {
         val rv = mBinding.recyclerView
         rv.layoutManager = LinearLayoutManager(activity)
         rv.setHasFixedSize(true)
-        rv.adapter = mAdapter
+        rv.adapter = /*mAdapter*/mPagedAdapter
 
         mBinding.swipeRefresh.setOnRefreshListener {
             mBinding.swipeRefresh.isRefreshing = false
-            mViewModel.doRefreshMoviesByGenre(mMovieGenre).observe(this@ContentFragment, Observer<List<Movie>> { list -> mAdapter.setList(list, true) })
+            mViewModel.getMoviesLiveData().observe(this@ContentFragment, Observer { it ->
+                it.let {
+                    mPagedAdapter.submitList(it)
+                }
+            })
         }
 
-        mViewModel.doLoadMoviesByGenre(mMovieGenre).observe(this@ContentFragment, Observer<List<Movie>> { list -> mAdapter.setList(list, true) })
+        mViewModel.getMoviesLiveData().observe(this@ContentFragment, Observer { it ->
+            it.let {
+                mPagedAdapter.submitList(it)
+            }
+        })
     }
 }

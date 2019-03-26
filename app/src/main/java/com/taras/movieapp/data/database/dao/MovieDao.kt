@@ -1,19 +1,20 @@
 package com.taras.movieapp.data.database.dao
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy
+import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import com.taras.movieapp.data.model.Movie
 
 @Dao
 interface MovieDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = REPLACE)
     fun insert(obj: Movie)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = REPLACE)
     fun insert(obj: List<Movie>)
 
     @Query("DELETE FROM tblMovie")
@@ -27,4 +28,7 @@ interface MovieDao {
 
     @Query("SELECT * FROM tblMovie WHERE movieGenre = :movieGenre")
     fun getMoviesByGenre(movieGenre: String): LiveData<List<Movie>>
+
+    @Query("SELECT * FROM tblMovie WHERE movieGenre = :movieGenre")
+    fun getPagedMoviesByGenre(movieGenre: String): DataSource.Factory<Int, Movie>
 }
