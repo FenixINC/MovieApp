@@ -1,58 +1,97 @@
 package com.taras.movieapp.data.paging
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.paging.LivePagedListBuilder
 import androidx.paging.PageKeyedDataSource
 import com.taras.movieapp.data.Constants
 import com.taras.movieapp.data.ServiceGenerator
+import com.taras.movieapp.data.database.AppDatabase
 import com.taras.movieapp.data.model.BaseResponse
 import com.taras.movieapp.data.model.Movie
 import com.taras.movieapp.data.model.NetworkState
 import com.taras.movieapp.data.service.MovieService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.*
 import timber.log.Timber
 
+class MovieDataSource(movieGenre: String, scope: CoroutineScope) : PageKeyedDataSource<Int, Movie>() {
 
-class MovieDataSource() : PageKeyedDataSource<Int, Movie>() {
+    private lateinit var mBaseResponse: BaseResponse
 
-    private var mNetworkState = MutableLiveData<Any>()
+    private val mMovieGenre = movieGenre
+    private val mScope = scope
+    private var mNetworkState = MutableLiveData<NetworkState>()
+    private var mPostList = MutableLiveData<List<Movie>>()
+
+    private var mPageIndex = 0
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Movie>) {
-
-        val currentPage = 1
-        val nextPage = currentPage + 1
-
-//        mNetworkState.postValue(NetworkState.LOADING)
-
-        val request = ServiceGenerator.createService(MovieService::class.java).getMovieList(Constants.GENRE_HOTTIES, 0, "")
-        request.enqueue(object : Callback<BaseResponse> {
-            override fun onResponse(call: Call<BaseResponse>, response: Response<BaseResponse>) {
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        callback.onResult(it.responseList, null, 1)
-//                        mNetworkState.postValue(NetworkState.LOADED)
+        mScope.launch {
+            withContext(Dispatchers.Default) {
+                try {
+                    val list = Transformations.switchMap(mPostList) {
+                        LivePagedListBuilder(AppDatabase.getInstance().movieDao().getPagedMoviesByGenre(mMovieGenre), Constants.DEFAULT_PAGE_SIZE).build()
                     }
-                } else {
-                    mNetworkState.postValue(NetworkState.error("Failed response!"))
+                    list.value?.let {
+                        mPageIndex += 20
+                        callback.onResult(it, null, mPageIndex)
+                    }
+
+                    if (list?.value == null) {
+                        val request = ServiceGenerator.createService(MovieService::class.java)
+                                .getMovieList(mMovieGenre, mPageIndex, Constants.DEFAULT_PAGE_SIZE.toString())
+                                .execute()
+
+                        if (request.isSuccessful) {
+                            Timber.d("Movie request is successful")
+                            request.body()?.let {
+                                mBaseResponse = it
+                                mPageIndex += 20
+//                                AppDatabase.getInstance().movieDao().deleteByGenre(mMovieGenre)
+                                for (movie in it.responseList) {
+                                    movie.movieGenre = mMovieGenre
+                                }
+                                AppDatabase.getInstance().movieDao().insert(it.responseList)
+                                callback.onResult(it.responseList, null, mPageIndex)
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    Timber.e(e)
                 }
             }
-
-            override fun onFailure(call: Call<BaseResponse>, t: Throwable) {
-                Timber.e(t)
-            }
-        })
-
-//        try {
-//
-//
-//        } catch (e: Exception) {
-//            Timber.e(e)
-//        }
+        }
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
+        mScope.launch {
+            withContext(Dispatchers.Default) {
+                try {
+//                    delay(5000)
+                    val request = ServiceGenerator.createService(MovieService::class.java)
+                            .getMovieList(mMovieGenre, mPageIndex, Constants.DEFAULT_PAGE_SIZE.toString())
+                            .execute()
 
+                    if (request.isSuccessful) {
+                        Timber.d("Movie request is successful")
+                        request.body()?.let {
+                            mBaseResponse = it
+                            mPageIndex += 20
+                            for (movie in it.responseList) {
+                                movie.movieGenre = mMovieGenre
+                            }
+                            AppDatabase.getInstance().movieDao().insert(it.responseList)
+                            callback.onResult(it.responseList, mPageIndex)
+                        }
+                    }
+
+//                    val list = AppDatabase.getInstance().movieDao().getMovieList()
+//                    mPostList.postValue(list.value)
+                } catch (e: Exception) {
+                    Timber.e(e)
+                }
+            }
+        }
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {

@@ -30,19 +30,19 @@ class ContentPagerFragment : Fragment() {
 
         val pageAdapter = PageAdapter(childFragmentManager)
         pageAdapter
-            .add("Hotties", ContentFragment.newInstance(Constants.GENRE_HOTTIES))
-            .add("Shorts", ContentFragment.newInstance(Constants.GENRE_SHORTS))
-            .add("Action", ContentFragment.newInstance(Constants.GENRE_ACTION))
-            .add("Documentary", ContentFragment.newInstance(Constants.GENRE_DOCUMENTARY))
-            .add("Music", ContentFragment.newInstance(Constants.GENRE_MUSIC))
-            .add("Horror", ContentFragment.newInstance(Constants.GENRE_HORROR))
-            .add("Drama", ContentFragment.newInstance(Constants.GENRE_DRAMA))
-            .add("Sports", ContentFragment.newInstance(Constants.GENRE_SPORTS))
-            .add("Comedy", ContentFragment.newInstance(Constants.GENRE_COMEDY))
-            .add("Animation", ContentFragment.newInstance(Constants.GENRE_ANIMATION))
-            .add("Film", ContentFragment.newInstance(Constants.GENRE_FILM))
-            .add("Western", ContentFragment.newInstance(Constants.GENRE_WESTERN))
-            .add("TV Mix", ContentFragment.newInstance(Constants.GENRE_TV_MIX))
+//                .add("Hotties", ContentFragment.newInstance(Constants.GENRE_HOTTIES))
+//                .add("Shorts", ContentFragment.newInstance(Constants.GENRE_SHORTS))
+//                .add("Action", ContentFragment.newInstance(Constants.GENRE_ACTION))
+//                .add("Documentary", ContentFragment.newInstance(Constants.GENRE_DOCUMENTARY))
+//                .add("Music", ContentFragment.newInstance(Constants.GENRE_MUSIC))
+//                .add("Horror", ContentFragment.newInstance(Constants.GENRE_HORROR))
+                .add("Drama", ContentFragment.newInstance(Constants.GENRE_DRAMA))
+//                .add("Sports", ContentFragment.newInstance(Constants.GENRE_SPORTS))
+//                .add("Comedy", ContentFragment.newInstance(Constants.GENRE_COMEDY))
+//                .add("Animation", ContentFragment.newInstance(Constants.GENRE_ANIMATION))
+//                .add("Film", ContentFragment.newInstance(Constants.GENRE_FILM))
+//                .add("Western", ContentFragment.newInstance(Constants.GENRE_WESTERN))
+//                .add("TV Mix", ContentFragment.newInstance(Constants.GENRE_TV_MIX))
 
         mBinding.viewPager.adapter = pageAdapter
         mBinding.viewPager.offscreenPageLimit = 13

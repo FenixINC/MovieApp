@@ -13,7 +13,7 @@ object Constants {
     const val REVENUE_DESC = "revenue.desc"
 
     const val PRIMARY_RELEASE_DATE_ASC = "primary_release_date.asc"
-    const val PRIMARY_RELEASE_DATE_DESC = "primary_release_date.DESC"
+    const val PRIMARY_RELEASE_DATE_DESC = "primary_release_date.desc"
 
     const val ORIGINAL_TITLE_ASC = "original_title.asc"
     const val ORIGINAL_TITLE_DESC = "original_title.desc"
@@ -41,4 +41,7 @@ object Constants {
     const val GENRE_FILM = "film"
     const val GENRE_WESTERN = "western"
     const val GENRE_TV_MIX = "tv mix"
+
+    // Database
+    const val DEFAULT_PAGE_SIZE = 20
 }

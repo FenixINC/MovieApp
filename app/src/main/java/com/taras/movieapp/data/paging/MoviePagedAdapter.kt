@@ -10,42 +10,39 @@ import com.taras.movieapp.BR
 import com.taras.movieapp.data.model.Movie
 import com.taras.movieapp.databinding.ItemMovieBinding
 
-class MoviePagedAdapter : PagedListAdapter<Movie, MoviePagedAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class MoviePagedAdapter : PagedListAdapter<Movie, MoviePagedAdapter.MovieViewHolder>(DIFF_CALLBACK) {
 
     companion object {
-//        @JvmStatic
-//        @BindingAdapter("contentImageThumb")
-//        fun bindMovieImage(@NonNull imageView: ImageView, @NonNull movie: Movie) {
-//            if (movie.poster == null) {
-//                return
-//            }
-//            Glide.with(imageView)
-//                .load(movie.poster.url)
-//                .apply(RequestOptions().signature(ObjectKey(movie.updatedAt)))
-//                .into(imageView)
-//        }
+        private const val ITEM_MOVIE = 1
+        private const val ITEM_STATE = 2
 
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Movie>() {
             override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
-                oldItem.id == newItem.id
+                    oldItem.id == newItem.id
 
             override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean =
-                oldItem.id == newItem.id
+                    oldItem.id == newItem.id
         }
     }
 
-    class MyViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
+    class MovieViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: Any) {
             binding.setVariable(BR.model, data)
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        return MyViewHolder(ItemMovieBinding.inflate(inflater, parent, false))
+    class StateViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(state: Boolean) {
+            binding.setVariable(BR.state, state)
+        }
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return MovieViewHolder(ItemMovieBinding.inflate(inflater, parent, false))
+    }
+
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
     }
 }

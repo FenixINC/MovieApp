@@ -16,7 +16,6 @@ import com.taras.movieapp.databinding.FragmentContentBinding
 class ContentFragment : Fragment() {
 
     private lateinit var mBinding: FragmentContentBinding
-    private lateinit var mAdapter: ContentAdapter
     private lateinit var mViewModel: MovieViewModel
 
     private lateinit var mPagedAdapter: MoviePagedAdapter
@@ -42,7 +41,6 @@ class ContentFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = FragmentContentBinding.inflate(inflater, container, false)
-        mAdapter = ContentAdapter()
         mPagedAdapter = MoviePagedAdapter()
         return mBinding.root
     }
@@ -53,18 +51,18 @@ class ContentFragment : Fragment() {
         val rv = mBinding.recyclerView
         rv.layoutManager = LinearLayoutManager(activity)
         rv.setHasFixedSize(true)
-        rv.adapter = /*mAdapter*/mPagedAdapter
+        rv.adapter = mPagedAdapter
 
         mBinding.swipeRefresh.setOnRefreshListener {
             mBinding.swipeRefresh.isRefreshing = false
-            mViewModel.getMoviesLiveData().observe(this@ContentFragment, Observer { it ->
+            mViewModel.getMovieLivePagedList(mMovieGenre).observe(this@ContentFragment, Observer { it ->
                 it.let {
                     mPagedAdapter.submitList(it)
                 }
             })
         }
 
-        mViewModel.getMoviesLiveData().observe(this@ContentFragment, Observer { it ->
+        mViewModel.getMovieLivePagedList(mMovieGenre).observe(this@ContentFragment, Observer { it ->
             it.let {
                 mPagedAdapter.submitList(it)
             }
