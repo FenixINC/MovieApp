@@ -67,8 +67,8 @@ dependencies {
     // Architecture Components:
     // Room:
     kapt "androidx.room:room-compiler:$room_version"
-    implementation 'androidx.room:room-runtime:2.1.0-alpha07'
-    implementation "androidx.room:room-coroutines:$room_version"
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-coroutines:$room_coroutines_version"
 
     // Lifecycle:
     implementation "androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04"
