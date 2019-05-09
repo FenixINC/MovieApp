@@ -31,4 +31,8 @@ interface MovieDao {
 
     @Query("SELECT * FROM tblMovie WHERE movieGenre = :movieGenre")
     fun getPagedMoviesByGenre(movieGenre: String): DataSource.Factory<Int, Movie>
+
+    // Suspend functions:
+    @Query("SELECT * FROM tblMovie WHERE movieGenre = :movieGenre")
+    /*suspend*/ fun getMoviesByGenreSuspend(movieGenre: String): List<Movie>
 }
