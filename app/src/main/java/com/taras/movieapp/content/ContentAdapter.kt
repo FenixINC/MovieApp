@@ -33,21 +33,13 @@ class ContentAdapter() : RecyclerView.Adapter<ContentAdapter.ViewHolder>() {
         return mList[position]
     }
 
-    class ViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: Any/*, listener: OnClickListener*/) {
-            binding.setVariable(BR.model, data)
-//            binding.setVariable(BR.clickListener, listener)
-        }
-    }
-
     override fun getItemCount(): Int {
         return mList.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val holder: ViewDataBinding =
-            DataBindingUtil.inflate(inflater, R.layout.item_movie, parent, false)
+        val holder: ViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.item_movie, parent, false)
         return ViewHolder(holder)
     }
 
@@ -55,17 +47,24 @@ class ContentAdapter() : RecyclerView.Adapter<ContentAdapter.ViewHolder>() {
         holder.bind(getItem(position))
     }
 
+    class ViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(data: Any/*, listener: OnClickListener*/) {
+            binding.setVariable(BR.model, data)
+//            binding.setVariable(BR.clickListener, listener)
+        }
+    }
+
     companion object {
         @JvmStatic
         @BindingAdapter("contentImageThumb")
         fun bindMovieImage(@NonNull imageView: ImageView, @NonNull movie: Movie) {
-            if (movie.poster == null) {
+            if (movie?.poster == null) {
                 return
             }
             Glide.with(imageView)
-                .load(movie.poster.url)
-                .apply(RequestOptions().signature(ObjectKey(movie.updatedAt)))
-                .into(imageView)
+                    .load(movie.poster.url)
+                    .apply(RequestOptions().signature(ObjectKey(movie.updatedAt)))
+                    .into(imageView)
         }
     }
 }

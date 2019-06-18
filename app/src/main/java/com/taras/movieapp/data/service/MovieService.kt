@@ -18,8 +18,22 @@ interface MovieService {
 
     @GET("/api/vod/search")
     fun getMovieList(
-        @Query("genre") genre: String,
-        @Query("start_index") startIndex: Int,
-        @Query("max_results") maxResult: String
+            @Query("genre") genre: String,
+            @Query("start_index") startIndex: Int,
+            @Query("max_results") maxResult: String
     ): Call<BaseResponse>
+
+    @GET("/api/vod/search")
+            /*suspend */fun getMovieListRequestAsync(
+            @Query("genre") genre: String,
+            @Query("start_index") startIndex: Int,
+            @Query("max_results") maxResult: String
+    ): Call<BaseResponse>
+
+    @GET("/api/vod/search")
+    fun getMovieListDeferred(
+            @Query("genre") genre: String,
+            @Query("start_index") startIndex: Int,
+            @Query("max_results") maxResult: String
+    ): Deferred<Response<BaseResponse>>
 }
