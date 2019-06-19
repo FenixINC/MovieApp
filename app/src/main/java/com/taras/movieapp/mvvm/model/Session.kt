@@ -1,4 +1,4 @@
-package com.taras.movieapp.data.model
+package com.taras.movieapp.mvvm.model
 
 import com.google.gson.annotations.SerializedName
 

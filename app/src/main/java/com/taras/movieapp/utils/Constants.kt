@@ -1,4 +1,4 @@
-package com.taras.movieapp.data
+package com.taras.movieapp.utils
 
 object Constants {
 

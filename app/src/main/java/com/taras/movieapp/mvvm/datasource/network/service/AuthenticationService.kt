@@ -1,6 +1,6 @@
-package com.taras.movieapp.data.service
+package com.taras.movieapp.mvvm.datasource.network.service
 
-import com.taras.movieapp.data.model.Authentication
+import com.taras.movieapp.mvvm.model.Authentication
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.GET

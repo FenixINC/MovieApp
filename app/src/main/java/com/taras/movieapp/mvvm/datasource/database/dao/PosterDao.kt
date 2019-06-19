@@ -1,9 +1,9 @@
-package com.taras.movieapp.data.database.dao
+package com.taras.movieapp.mvvm.datasource.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
-import com.taras.movieapp.data.model.Poster
+import com.taras.movieapp.mvvm.model.Poster
 
 @Dao
 interface PosterDao {

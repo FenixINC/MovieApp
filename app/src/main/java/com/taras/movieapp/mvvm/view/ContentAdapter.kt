@@ -1,4 +1,4 @@
-package com.taras.movieapp.content
+package com.taras.movieapp.mvvm.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,7 +13,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.taras.movieapp.BR
 import com.taras.movieapp.R
-import com.taras.movieapp.data.model.Movie
+import com.taras.movieapp.mvvm.model.Movie
 import java.util.*
 
 class ContentAdapter() : RecyclerView.Adapter<ContentAdapter.ViewHolder>() {
@@ -37,13 +37,13 @@ class ContentAdapter() : RecyclerView.Adapter<ContentAdapter.ViewHolder>() {
         return mList.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val holder: ViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.item_movie, parent, false)
         return ViewHolder(holder)
     }
 
-    override fun onBindViewHolder(holder: ContentAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 

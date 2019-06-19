@@ -1,4 +1,4 @@
-package com.taras.movieapp.content
+package com.taras.movieapp.mvvm.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
-import com.taras.movieapp.data.Constants
 import com.taras.movieapp.databinding.FragmentContentPagerBinding
+import com.taras.movieapp.utils.Constants
 import com.taras.movieapp.utils.PageAdapter
 
 class ContentPagerFragment : Fragment() {

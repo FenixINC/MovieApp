@@ -1,4 +1,4 @@
-package com.taras.movieapp.data.viewmodel
+package com.taras.movieapp.mvvm.viewmodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -9,10 +9,10 @@ import kotlinx.coroutines.cancelChildren
 open class BaseViewModel : ViewModel() {
 
     private val mJob = SupervisorJob()
-    protected val scope = CoroutineScope(Dispatchers.Main + mJob)
+    protected val mScope = CoroutineScope(Dispatchers.Main + mJob)
 
     override fun onCleared() {
         super.onCleared()
-        scope.coroutineContext.cancelChildren()
+        mScope.coroutineContext.cancelChildren()
     }
 }

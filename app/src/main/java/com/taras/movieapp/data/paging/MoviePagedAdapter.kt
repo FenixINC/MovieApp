@@ -7,7 +7,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.taras.movieapp.BR
-import com.taras.movieapp.data.model.Movie
+import com.taras.movieapp.mvvm.model.Movie
 import com.taras.movieapp.databinding.ItemMovieBinding
 
 class MoviePagedAdapter : PagedListAdapter<Movie, MoviePagedAdapter.MovieViewHolder>(DIFF_CALLBACK) {

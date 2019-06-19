@@ -2,11 +2,11 @@ package com.taras.movieapp.data.paging
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.paging.PagedList
-import com.taras.movieapp.data.Constants
-import com.taras.movieapp.data.ServiceGenerator
-import com.taras.movieapp.data.database.AppDatabase
-import com.taras.movieapp.data.model.Movie
-import com.taras.movieapp.data.service.MovieService
+import com.taras.movieapp.utils.Constants
+import com.taras.movieapp.mvvm.datasource.network.ServiceGenerator
+import com.taras.movieapp.mvvm.datasource.database.AppDatabase
+import com.taras.movieapp.mvvm.model.Movie
+import com.taras.movieapp.mvvm.datasource.network.service.MovieService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

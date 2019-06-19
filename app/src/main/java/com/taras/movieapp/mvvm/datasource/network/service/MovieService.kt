@@ -1,6 +1,6 @@
-package com.taras.movieapp.data.service
+package com.taras.movieapp.mvvm.datasource.network.service
 
-import com.taras.movieapp.data.model.BaseResponse
+import com.taras.movieapp.mvvm.model.BaseResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.Call
 import retrofit2.Response

@@ -1,4 +1,4 @@
-package com.taras.movieapp.content
+package com.taras.movieapp.mvvm.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

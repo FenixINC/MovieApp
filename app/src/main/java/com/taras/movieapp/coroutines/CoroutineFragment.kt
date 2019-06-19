@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.taras.movieapp.data.Constants
-import com.taras.movieapp.data.ServiceGenerator
-import com.taras.movieapp.data.database.AppDatabase
-import com.taras.movieapp.data.model.Movie
-import com.taras.movieapp.data.service.MovieService
+import com.taras.movieapp.utils.Constants
+import com.taras.movieapp.mvvm.datasource.network.ServiceGenerator
+import com.taras.movieapp.mvvm.datasource.database.AppDatabase
+import com.taras.movieapp.mvvm.model.Movie
+import com.taras.movieapp.mvvm.datasource.network.service.MovieService
 import com.taras.movieapp.databinding.FragmentCoroutineBinding
 import kotlinx.android.synthetic.main.fragment_coroutine.*
 import kotlinx.coroutines.*
