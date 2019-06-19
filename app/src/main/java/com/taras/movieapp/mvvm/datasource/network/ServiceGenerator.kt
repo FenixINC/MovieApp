@@ -1,11 +1,7 @@
 package com.taras.movieapp.mvvm.datasource.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.taras.movieapp.BuildConfig
-import kotlinx.serialization.json.JSON
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -53,10 +49,9 @@ object ServiceGenerator {
 //            }
         }
 
-        val contentType = MediaType.get("application/json")
         builder = Retrofit.Builder()
             .baseUrl(BuildConfig.API_BASE_URL)
-            .addConverterFactory(Json.asConverterFactory(contentType))
+            .addConverterFactory(createGsonConverterFactory())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
     }
 
