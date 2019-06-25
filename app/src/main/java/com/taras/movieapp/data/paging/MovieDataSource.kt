@@ -5,12 +5,12 @@ import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PageKeyedDataSource
 import com.taras.movieapp.utils.Constants
-import com.taras.movieapp.mvvm.datasource.network.ServiceGenerator
-import com.taras.movieapp.mvvm.datasource.database.AppDatabase
-import com.taras.movieapp.mvvm.model.BaseResponse
-import com.taras.movieapp.mvvm.model.Movie
-import com.taras.movieapp.mvvm.model.NetworkState
-import com.taras.movieapp.mvvm.datasource.network.service.MovieService
+import com.taras.movieapp.mvvm.data.network.ServiceGenerator
+import com.taras.movieapp.mvvm.data.database.AppDatabase
+import com.taras.movieapp.mvvm.data.entities.BaseResponse
+import com.taras.movieapp.mvvm.data.entities.Movie
+import com.taras.movieapp.mvvm.data.entities.NetworkState
+import com.taras.movieapp.mvvm.data.network.services.MovieService
 import kotlinx.coroutines.*
 import timber.log.Timber
 

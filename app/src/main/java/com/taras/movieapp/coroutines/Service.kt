@@ -1,6 +1,6 @@
 package com.taras.movieapp.coroutines
 
-import com.taras.movieapp.mvvm.model.Movie
+import com.taras.movieapp.mvvm.data.entities.Movie
 
 interface Service {
 

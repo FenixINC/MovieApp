@@ -1,7 +1,7 @@
 package com.taras.movieapp.data.paging
 
 import androidx.paging.DataSource
-import com.taras.movieapp.mvvm.model.Movie
+import com.taras.movieapp.mvvm.data.entities.Movie
 import kotlinx.coroutines.CoroutineScope
 
 class MovieSourceFactory(movieGenre: String, scope: CoroutineScope) : DataSource.Factory<Int, Movie>() {

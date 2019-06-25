@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.taras.movieapp.utils.Constants
-import com.taras.movieapp.mvvm.model.Movie
+import com.taras.movieapp.mvvm.data.entities.Movie
 import com.taras.movieapp.data.paging.MovieBoundaryCallback
 import com.taras.movieapp.data.paging.MovieSourceFactory
 import kotlinx.coroutines.CoroutineScope
