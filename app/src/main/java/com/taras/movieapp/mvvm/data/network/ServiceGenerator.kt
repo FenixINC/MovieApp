@@ -52,7 +52,7 @@ object ServiceGenerator {
         builder = Retrofit.Builder()
             .baseUrl(BuildConfig.API_BASE_URL)
             .addConverterFactory(createGsonConverterFactory())
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+//            .addCallAdapterFactory(CoroutineCallAdapterFactory()) // delete this call adapter if Retrofit version == 2.6.0
     }
 
     private fun createGsonConverterFactory(): GsonConverterFactory {

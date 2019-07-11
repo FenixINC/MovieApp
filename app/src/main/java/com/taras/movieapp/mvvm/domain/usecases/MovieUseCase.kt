@@ -1,8 +1,8 @@
 package com.taras.movieapp.mvvm.domain.usecases
 
-class MovieUseCase {
+import androidx.lifecycle.MutableLiveData
+import com.taras.movieapp.mvvm.data.entities.Movie
 
-    fun execute(movieGenre: String) {
-
-    }
+interface MovieUseCase {
+    fun getMovieList(movieGenre: String): MutableLiveData<List<Movie>>
 }

@@ -7,6 +7,7 @@ import com.taras.movieapp.mvvm.data.entities.BaseResponse
 import com.taras.movieapp.mvvm.data.entities.Movie
 import com.taras.movieapp.mvvm.data.network.ServiceGenerator
 import com.taras.movieapp.mvvm.data.network.services.MovieService
+import com.taras.movieapp.mvvm.domain.repositories.MovieRepository
 import com.taras.movieapp.utils.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-class MovieRepositoryImpl {
+class MovieRepositoryImpl : MovieRepository {
 
     private var mMutableLiveData = MutableLiveData<List<Movie>>()
     private var mList = mutableListOf<BaseResponse>()
@@ -23,9 +24,13 @@ class MovieRepositoryImpl {
         ServiceGenerator.createService(MovieService::class.java)
     }
 
+    override fun getMovieList(movieGenre: String): MutableLiveData<List<Movie>> =
+            getMovieListNetwork(movieGenre)
+
     fun getMovieListNetwork(movieGenre: String): MutableLiveData<List<Movie>> {
         CoroutineScope(Dispatchers.Main).launch {
-            val request = mService.getMovieListDeferred(movieGenre, 0, Constants.DEFAULT_PAGE_SIZE.toString())
+            val request =
+                    mService.getMovieListDeferred(movieGenre, 0, Constants.DEFAULT_PAGE_SIZE.toString())
 
             withContext(Dispatchers.IO) {
                 try {
@@ -54,7 +59,8 @@ class MovieRepositoryImpl {
         CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.IO) {
                 try {
-                    val movieListLiveData = AppDatabase.getInstance().movieDao().getMoviesByGenreSuspend(movieGenre)
+                    val movieListLiveData =
+                            AppDatabase.getInstance().movieDao().getMoviesByGenreSuspend(movieGenre)
                     when {
                         movieListLiveData.isNullOrEmpty() -> getMovieListNetwork(movieGenre)
                         else -> mMutableLiveData.postValue(movieListLiveData)

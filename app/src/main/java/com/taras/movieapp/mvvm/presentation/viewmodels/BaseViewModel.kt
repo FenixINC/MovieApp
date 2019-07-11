@@ -1,4 +1,4 @@
-package com.taras.movieapp.mvvm.app.viewmodels
+package com.taras.movieapp.mvvm.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope

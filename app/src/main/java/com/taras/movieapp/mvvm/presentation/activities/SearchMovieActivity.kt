@@ -1,4 +1,4 @@
-package com.taras.movieapp.mvvm.app.activities
+package com.taras.movieapp.mvvm.presentation.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

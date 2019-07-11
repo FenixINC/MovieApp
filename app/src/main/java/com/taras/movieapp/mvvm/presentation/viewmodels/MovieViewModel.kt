@@ -1,10 +1,11 @@
-package com.taras.movieapp.mvvm.app.viewmodels
+package com.taras.movieapp.mvvm.presentation.viewmodels
 
 import androidx.lifecycle.LiveData
 import com.taras.movieapp.mvvm.data.entities.Movie
 import com.taras.movieapp.mvvm.data.repositories.MovieRepositoryImpl
+import com.taras.movieapp.mvvm.domain.usecases.MovieUseCase
 
-class MovieViewModel : BaseViewModel() {
+class MovieViewModel(private val movieUseCase: MovieUseCase) : BaseViewModel() {
 
     private var mMovieGenre: String = ""
     private val mMovieRepository = MovieRepositoryImpl()
@@ -24,6 +25,12 @@ class MovieViewModel : BaseViewModel() {
 
     private val mMovieListDatabase: LiveData<List<Movie>>
         get() = mMovieRepository.getMovieListDatabase(mMovieGenre)
+
+
+    ////////////////////////////////////
+    fun getMovieList(): LiveData<List<Movie>> {
+        return movieUseCase.getMovieList(mMovieGenre)
+    }
 
 //    fun getMovieLivePagedList(movieGenre: String): LiveData<PagedList<Movie>> {
 //        mMovieGenre = movieGenre

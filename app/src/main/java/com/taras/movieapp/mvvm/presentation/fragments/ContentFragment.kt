@@ -1,4 +1,4 @@
-package com.taras.movieapp.mvvm.app.fragments
+package com.taras.movieapp.mvvm.presentation.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,13 +11,16 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.taras.movieapp.data.paging.MoviePagedAdapter
 import com.taras.movieapp.databinding.FragmentContentBinding
-import com.taras.movieapp.mvvm.app.adapters.ContentAdapter
-import com.taras.movieapp.mvvm.app.viewmodels.MovieViewModel
+import com.taras.movieapp.mvvm.MovieApplication
+import com.taras.movieapp.mvvm.presentation.adapters.ContentAdapter
+import com.taras.movieapp.mvvm.presentation.viewmodels.MovViewModel
+import com.taras.movieapp.mvvm.presentation.viewmodels.MovieViewModel
 
 class ContentFragment : Fragment() {
 
     private lateinit var mBinding: FragmentContentBinding
-    private lateinit var mViewModel: MovieViewModel
+//    private lateinit var mViewModel: MovieViewModel
+    private lateinit var mViewModel: MovViewModel
 
     private lateinit var mPagedAdapter: MoviePagedAdapter
     private lateinit var mAdapter: ContentAdapter
@@ -38,7 +41,7 @@ class ContentFragment : Fragment() {
         arguments?.run {
             mMovieGenre = getString(MOVIE_GENRE)!!
         }
-        mViewModel = ViewModelProviders.of(this@ContentFragment).get(MovieViewModel::class.java)
+        mViewModel = ViewModelProviders.of(this@ContentFragment).get(MovViewModel(MovieApplication.getAppInstance)::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -61,21 +64,37 @@ class ContentFragment : Fragment() {
 //            mAdapter.setList(it, true)
 //        }
 
-        mViewModel.getMovieListDatabase(mMovieGenre).observe(this@ContentFragment, Observer { list ->
+//        mViewModel.getMovieListDatabase(mMovieGenre).observe(this@ContentFragment, Observer { list ->
+//            list?.let {
+//                mAdapter.setList(it, true)
+//            }
+//        })
+//
+//        mBinding.swipeRefresh.setOnRefreshListener {
+//            mBinding.swipeRefresh.isRefreshing = true
+//            mViewModel.getMovieListNetwork(mMovieGenre).observe(this@ContentFragment, Observer { list ->
+//                list?.let {
+//                    mAdapter.setList(it, true)
+//                    mBinding.swipeRefresh.isRefreshing = false
+//                }
+//            })
+//        }
+        /////////////////////////////////
+        mViewModel.movieList.observe(this@ContentFragment, Observer { list ->
             list?.let {
                 mAdapter.setList(it, true)
             }
         })
-
         mBinding.swipeRefresh.setOnRefreshListener {
             mBinding.swipeRefresh.isRefreshing = true
-            mViewModel.getMovieListNetwork(mMovieGenre).observe(this@ContentFragment, Observer { list ->
+            mViewModel.getMovieList().observe(this@ContentFragment, Observer { list ->
                 list?.let {
                     mAdapter.setList(it, true)
                     mBinding.swipeRefresh.isRefreshing = false
                 }
             })
         }
+        /////////////////////////////////
 
 //        mBinding.swipeRefresh.setOnRefreshListener {
 //            mBinding.swipeRefresh.isRefreshing = false

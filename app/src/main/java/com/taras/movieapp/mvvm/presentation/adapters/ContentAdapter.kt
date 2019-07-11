@@ -1,4 +1,4 @@
-package com.taras.movieapp.mvvm.app.adapters
+package com.taras.movieapp.mvvm.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

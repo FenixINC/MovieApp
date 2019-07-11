@@ -36,4 +36,12 @@ interface MovieService {
             @Query("start_index") startIndex: Int,
             @Query("max_results") maxResult: String
     ): Deferred<Response<BaseResponse>>
+
+    //////////////////
+//    @GET("/api/vod/search")
+//    suspend fun getMovieListDeferred(
+//        @Query("genre") genre: String,
+//        @Query("start_index") startIndex: Int,
+//        @Query("max_results") maxResult: String
+//    ): Response<BaseResponse>
 }
